@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.min.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			ul {
+				font-size: 14px;
+				color: #8f8f94;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			table.gridtable {
+				font-family: verdana,arial,sans-serif;
+				font-size:11px;
+				color:#333333;
+				border-width: 1px;
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px 0 auto 10px auto;
+			}
+			table.gridtable th {
+				border-width: 1px;
+				padding: 5px;
+				border-style: solid;
+				border-color: #666666;
+				text-align: left;
+				background-color: #00aa00;
+			}
+			table.gridtable td {
+				border-width: 1px;
+				padding: 8px;
+				border-style: solid;
+				border-color: #666666;
+				background-color: #ffffff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+			<!-- <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+				<span class="mui-icon mui-icon-left-nav"></span>
+			</button> -->
+			<h1 class="mui-title">  云端机器人运营日报情况1  </h1>
+			<button id='setting' class=" mui-pull-right mui-btn-link">设置</button>
+		</header>
+		
+		<nav class="mui-bar mui-bar-tab">
+			<a  class="mui-tab-item mui-active" id="home">
+			<span class="mui-icon mui-icon-home"></span>
+			<span class="mui-tab-label">首页</span></a>
+			<a  class="mui-tab-item " >
+			<span class="mui-icon mui-icon-phone" ></span>
+			<span class="mui-tab-label">电话</span></a>
+			<a  class="mui-tab-item ">
+			<span class="mui-icon mui-icon-email"></span>
+			<span class="mui-tab-label">邮件</span></a>
+			<!-- <a  class="mui-tab-item ">
+			<span class="mui-icon mui-icon-circle"></span>
+			<span class="mui-tab-label">邮件</span></a>
+			 -->
+			<a  class="mui-tab-item ">				
+			<span class="mui-icon mui-icon-gear"></span>
+			<span class="mui-tab-label">设置</span></a>
+		</nav>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p style="text-align: center;">
+					<!-- 您好 <span id='account'></span>，您已成功登录。 -->
+					<!-- <ul>
+						<li>这是mui带登录和设置模板的示例App首页。</li>
+						<li>您可以点击右上角的 “设置” 按钮，进入设置模板，体验div窗体切换示例。</li>
+						<li>在 “设置” 中点击 “退出” 可以 “注销当前账户” 或 “直接关闭应用”。</li>
+						<li>你可以设置 “锁屏图案”，这样可通过手势密码代替输入账号、密码；</li>
+					</ul> -->
+					您好 ，<span id='account'></span>已成功登录。
+
+				</p>
+				<form class="mui-input-group">
+					<div>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" >
+									查看历史数据 <span id='stardate' data-options='{"type":"date"}' class="mui-pull-right" style="margin-right: 20px;min-width:160px;text-align: right;">请选择时间（必填）</span>
+								</a>
+								<input type="hidden" name="rideStartTime" id='rideStartTime' />
+							</li>
+
+						</ul>
+
+					</div>
+				</form>
+				<div class="mui-content-padded" >
+					<button id='login' class="mui-btn mui-btn-block mui-btn-primary" style="width:120px;margin: auto;">查询</button>
+					<!-- <div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+				</div> -->
+				</div>
+
+
+				<div style="margin:20px auto 20px auto">
+					<table class="gridtable">
+
+						<tr>
+							<th>机器人类型</th>
+							<th>设备台数</th>
+							<th>在线设备数</th>
+							<th>未在线设备数</th>
+							<th>服务时长</th>
+							<th>故障次数</th>
+							<th>训练师上岗数</th>
+							<th>今日部署台数</th>
+							<th>新增部署客户</th>
+							<th>物流发货数</th>
+						</tr>
+						<tr>
+							<td>加强型大白</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>	<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>IKOO</td>
+							<td>100</td>
+							<td>30</td>
+							<td>0</td>
+							<td>12</td>
+							<td>0</td>
+							<td>10</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+
+					</table>
+				</div>
+
+
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		
+		<script>
+		
+			(function($, doc) {
+					$.init();
+
+					var settings = app.getSettings();
+					var account = doc.getElementById('account');
+					//
+					window.addEventListener('show', function() {
+						var state = app.getState();
+						account.innerText = state.account;
+					}, false);
+					$.plusReady(function() {
+					document.getElementById("home").addEventListener('tap',function(){
+						console.log('test');
+						mui.openWindow('login.html','id');
+					});
+						
+						
+						
+						/* 	plus.screen.orientation.getCurrentOrientation(function(o) {
+								console.log("Orientation\nAlpha:" + o.alpha + "\nBeta:" + o.beta + "\nGamma:" + o.gamma);
+							});); */
+						/* 	plus.orientation.getCurrentOrientation(function(o){
+								
+								console.log("Orientation\nAlpha:" + o.alpha + "\nBeta:" + o.beta + "\nGamma:" + o.gamma);
+							}) */
+						//plus.screen.lockOrientation("portrait-primary");
+						//console.log(temp);
+						//plus.screen.lockOrientation("landscape");
+/* 						var settingPage = $.preload({
+							"id": 'setting',
+							"url": 'setting.html'
+						}); */
+			/* 			var settingPage = $.preload({
+							"id": 'test',
+							"url": 'test.html'
+						}); */
+						doc.getElementById("stardate").addEventListener('tap', function() {
+							var dDate = new Date();
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var picker = new mui.DtPicker(options);
+							picker.show(function(rs) {
+								console.log(rs.text)
+								var timestr = rs.text;
+							     var stardate = doc.getElementById('stardate');
+								stardate.innerText = timestr;
+								//jQuery('#stardate').html(timestr);
+								
+								picker.dispose();
+							});
+						})
+						/*  doc.getElementById("enddate").addEventListener('tap', function () {
+						                var dDate = new Date();
+						                var optionsJson = this.getAttribute('data-options') || '{}';
+						                var options = JSON.parse(optionsJson);
+						                var picker = new mui.DtPicker(options);
+						                picker.show(function (rs) {
+						                    console.log(rs)
+						                    var timestr = rs.text;
+						                    jQuery('#enddate').html(timestr);
+						                    picker.dispose();
+						                });
+						            })
+						            doc.getElementById("startime").addEventListener('tap', function () {
+						                var dDate = new Date();
+						                var optionsJson = this.getAttribute('data-options') || '{}';
+						                var options = JSON.parse(optionsJson);
+						                var picker = new mui.DtPicker(options);
+						                picker.show(function (rs) {
+						                    console.log(rs)
+						                    var timestr = rs.text;
+						                   jQuery('#startime').html(timestr);
+						                    picker.dispose();
+						                });
+						            })
+						            doc.getElementById("endtime").addEventListener('tap', function () {
+						                var dDate = new Date();
+						                var optionsJson = this.getAttribute('data-options') || '{}';
+						                var options = JSON.parse(optionsJson);
+						                var picker = new mui.DtPicker(options);
+						                picker.show(function (rs) {
+											*/
+						/*
+					
+						* rs.value 拼合后的 value
+					
+						* rs.text 拼合后的 text
+					
+						* rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+					
+						* rs.m 月，用法同年
+					
+						* rs.d 日，用法同年
+					
+						* rs.h 时，用法同年
+					
+						* rs.i 分（minutes 的第二个字母），用法同年
+					
+						* 返回 false 可以阻止选择框的关闭
+					
+						* return false;
+						*/
+						/*
+					                    var timestr = rs.text;
+					                    jQuery('#endtime').html(timestr);
+					                    picker.dispose();
+					           
+					                });
+					            })
+				
+					
+					
+					 */
+						/*
+						                   释放组件资源，释放后将将不能再操作组件
+					
+						* 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+					
+						* 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+					
+						* 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+						                    */
+
+						//设置
+						var settingButton = doc.getElementById('setting');
+						//settingButton.style.display = settings.autoLogin ? 'block' : 'none';
+						settingButton.addEventListener('tap', function(event) {
+							$.openWindow({
+								//id: 'setting',								
+								//id:'test',
+								url:'test.html',
+								show: {
+									aniShow: 'pop-in'
+								},
+								styles: {
+									popGesture: 'hide'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						});
+						//--
+						$.oldBack = mui.back;
+						var backButtonPress = 0; $.back = function(event) {
+							backButtonPress++;
+							if (backButtonPress > 1) {
+								plus.runtime.quit();
+							} else {
+								plus.nativeUI.toast('再按一次退出应用');
+							}
+							setTimeout(function() {
+								backButtonPress = 0;
+							}, 1000);
+							return false;
+						};
+					});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>
