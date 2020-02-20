@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.min.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			ul {
+				font-size: 14px;
+				color: #8f8f94;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			table.gridtable {
+				font-family: verdana,arial,sans-serif;
+				font-size:11px;
+				color:#333333;
+				border-width: 1px;
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px 0 auto 10px auto;
+			}
+			table.gridtable th {
+				border-width: 1px;
+				padding: 5px;
+				border-style: solid;
+				border-color: #666666;
+				text-align: left;
+				background-color: #00aa00;
+			}
+			table.gridtable td {
+				border-width: 1px;
+				padding: 8px;
+				border-style: solid;
+				border-color: #666666;
+				background-color: #ffffff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+				<span class="mui-icon mui-icon-left-nav"></span>
+			</button>
+			<h1 class="mui-title">云端机器人运营日报情况</h1>
+			<button id='setting' class=" mui-pull-right mui-btn-link">设置</button>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p style="text-align: center;">
+					<!-- 您好 <span id='account'></span>，您已成功登录。 -->
+					<!-- <ul>
+						<li>这是mui带登录和设置模板的示例App首页。</li>
+						<li>您可以点击右上角的 “设置” 按钮，进入设置模板，体验div窗体切换示例。</li>
+						<li>在 “设置” 中点击 “退出” 可以 “注销当前账户” 或 “直接关闭应用”。</li>
+						<li>你可以设置 “锁屏图案”，这样可通过手势密码代替输入账号、密码；</li>
+					</ul> -->
+					您好 ，<span id='account'></span>已成功登录。
+
+				</p>
+				<form id='search-form' class="mui-input-group">
+					<div>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" >
+									查看历史数据 <span id='stardate' data-options='{"type":"date"}' class="mui-pull-right" style="margin-right: 20px;min-width:160px;text-align: right;">请选择时间（必填）</span>
+								</a>
+								<input type="hidden" name="dateSearchStart" id='dateSearchStart' />
+							</li>
+
+						</ul>
+
+					</div>
+				</form>
+				<div class="mui-content-padded" >
+					<button id='searchData' class="mui-btn mui-btn-block mui-btn-primary" style="width:120px;margin: auto;">查询</button>
+					<!-- <div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+				</div> -->
+				</div>
+				<div style="margin:0px;">
+                   <canvas id="myChart" width="400" height="auto"></canvas>
+                 </div>
+				<div style="margin:0px auto 20px auto">
+					<table class="gridtable" >
+				
+							
+							
+							<tr>
+								<th rowspan="2">机器人名称</th>
+								<th rowspan="2">设备总数</th>
+								<th colspan="2">在线设备数</th>
+								<th rowspan="2">服务时长</th>
+								<th rowspan="2">故障数</th>
+								<th rowspan="2">训练师上岗数</th>
+								<th rowspan="2">新增部署客户</th>
+								<th rowspan="2">今日部署中台数</th>
+						        <th rowspan="2">今日部署转运营台数</th>
+                                 <th rowspan="2">售后产品支撑</th>
+								<th rowspan="2">今日物流发货数</th>
+							</tr>
+							
+						<tr><th>在线设备数</th>
+							<th>未工作设备数</th>
+							
+						</tr>
+						<tbody id="dayreportdatalog"></tbody>
+					
+
+					</table>
+				</div>
+
+
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="js/f2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>			
+				
+			(function($, doc) {
+					$.init();
+
+					var settings = app.getSettings();
+					var account = doc.getElementById('account');				
+						var windowstemp=window.devicePixelRatio;
+					//
+					window.addEventListener('show', function() {
+						var state = app.getState();
+						account.innerText = state.account;
+						//获取当前数据
+										var startdatesearch=getFormatDate();
+										console.log(startdatesearch);
+										var inserttable=doc.getElementById("dayreportdatalog");
+										var myChart=doc.getElementById("myChart");
+										
+										
+										
+										console.log(windowstemp+"#######");
+										app.getDayreportLogdata(startdatesearch,inserttable,windowstemp,'myChart',function(err){	
+										if (err) {
+											plus.nativeUI.toast(err);
+											return;
+										}
+										});
+										
+					
+					}, false);
+					$.plusReady(function() {
+						
+						var settingPage = $.preload({
+							"id": 'setting',
+							"url": 'setting.html'
+						});
+	
+						doc.getElementById("stardate").addEventListener('tap', function() {
+							var dDate = new Date();
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var picker = new mui.DtPicker(options);
+							picker.show(function(rs) {
+								console.log(rs.text)
+								var timestr = rs.text;
+							     var stardate = doc.getElementById('stardate');
+								stardate.innerText = timestr;
+								//doc.getElementById('dateSearchStart')=timestr;
+												
+								picker.dispose();
+							});
+						})
+					   var searchDataButton = doc.getElementById('searchData');					  
+					   
+					searchDataButton.addEventListener('tap', function(event) {							
+						 var stardatestr = doc.getElementById('stardate').innerText;
+						 console.log(stardatestr+"++++++++++++++++++");
+						var inserttable=doc.getElementById("dayreportdatalog");
+						var myChart=doc.getElementById("myChart");
+						inserttable.innerHTML="";
+						myChart.innerHTML="";
+						app.getDayreportLogdata(stardatestr,inserttable,windowstemp,'myChart',function(err){											
+							if (err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
+						});
+					});
+					
+						//设置
+						var settingButton = doc.getElementById('setting');
+						//settingButton.style.display = settings.autoLogin ? 'block' : 'none';
+						settingButton.addEventListener('tap', function(event) {
+							$.openWindow({
+								id: 'setting',
+								show: {
+									aniShow: 'pop-in'
+								},
+								styles: {
+									popGesture: 'hide'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						});
+						//--
+						$.oldBack = mui.back;
+						var backButtonPress = 0; $.back = function(event) {
+							backButtonPress++;
+							if (backButtonPress > 1) {
+								plus.runtime.quit();
+							} else {
+								plus.nativeUI.toast('再按一次退出应用');
+							}
+							setTimeout(function() {
+								backButtonPress = 0;
+							}, 1000);
+							return false;
+						};
+					});
+					
+					
+					
+					
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

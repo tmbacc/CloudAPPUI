@@ -95,10 +95,9 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/app.js"></script>
-		<script src="js/Bmob-2.2.2.min.js"></script>
 		<script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.4.2/f2.min.js"></script>
 		<script>
-			Bmob.initialize("c3cd4f74f6117db0", "abcd12");
+			
 			(function($, doc) {
 				$.init({
 					statusBarBackground: '#f7f7f7'
@@ -106,6 +105,7 @@
 				$.plusReady(function() {
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
+					
 					var state = app.getState();
 					var mainPage = plus.webview.getWebviewById("main");
 					var main_loaded_flag = false;

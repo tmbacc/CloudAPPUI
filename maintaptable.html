@@ -54,7 +54,13 @@
 		<div class="mui-content">
 			<div class="mui-content-padded">
 				<p style="text-align: center;">
-					
+					<!-- 您好 <span id='account'></span>，您已成功登录。 -->
+					<!-- <ul>
+						<li>这是mui带登录和设置模板的示例App首页。</li>
+						<li>您可以点击右上角的 “设置” 按钮，进入设置模板，体验div窗体切换示例。</li>
+						<li>在 “设置” 中点击 “退出” 可以 “注销当前账户” 或 “直接关闭应用”。</li>
+						<li>你可以设置 “锁屏图案”，这样可通过手势密码代替输入账号、密码；</li>
+					</ul> -->
 					您好 ，<span id='account'></span>已成功登录。
 
 				</p>
@@ -74,7 +80,8 @@
 				</form>
 				<div class="mui-content-padded">
 					<button id='searchData' class="mui-btn mui-btn-block mui-btn-primary" style="width:120px;margin: auto;">查询</button>
-				
+					<!-- <div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+				</div> -->
 				</div>
 
 				<div id="slider" class="mui-slider">
@@ -227,12 +234,14 @@
                      var startdatesearch = getFormatDate();
 					 var inserttable = doc.getElementById("item1robottable");
 					 //生成数据
-					 getRobotData(startdatesearch, "CDR", inserttable, function(err) {
+					 getRobotData("2020-02-19", "CDR", inserttable, function(err) {
 					 	if (err) {
 					 		plus.nativeUI.toast(err);
 					 		return;
 					 	}
 					 });
+					 
+					 
 					 
 
 				}, false);
@@ -260,7 +269,25 @@
 					})
 
 
-					//tab切换，重新请求数据				
+					//tab切换
+
+					/* 	mui(".mui-scroll").on('tap', '.mui-control-item', function() {
+							//获取id
+							var startdatesearch = getFormatDate();
+							var robottype = this.getAttribute("id");
+							var inserttablename = this.getAttribute("href") + "table";
+							var inserttable = doc.getElementById(inserttablename);
+							inserttable.innerHTML="";
+							console.log(robottype + "++++++++++++++++!");
+							console.log(inserttable + "++++++++++++++++!");
+							//生成数据
+							getRobotData(startdatesearch, robottype, inserttable, function(err) {
+								if (err) {
+									plus.nativeUI.toast(err);
+									return;
+								}
+							});
+						}) */
 					document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 						//注意slideNumber是从0开始的；
 						var startdatesearch = getFormatDate();
@@ -269,7 +296,9 @@
 						var inserttable = doc.getElementById(inserttablename);
 						var robottype = "CCR";
 						inserttable.innerHTML = "";
+						console.log(robottype + "++++++++++++++++!");
 						console.log(inserttablename + "++++++++++++++++!");
+
 						switch (event.detail.slideNumber) {
 							case 0:
 								robottype = "CCR";
@@ -281,16 +310,16 @@
 								robottype = "CAR";
 								break;
 							case 3:
-								robottype = "CDR";
+								robottype = "CCR";
 								break;
 							case 4:
-								robottype = "CGR";
+								robottype = "CDR";
 								break;
 							case 5:
-								robottype = "CVR";
+								robottype = "CGR";
 								break;
 							default:
-								robottype = "CCR";
+								robottype = "CVR";
 								break;
 						}
 						console.log(robottype+"++++++++++++++####");
