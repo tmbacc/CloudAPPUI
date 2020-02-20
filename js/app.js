@@ -15,8 +15,8 @@ function getFormatDate() {
 function getRobotData(startdatesearch,robottype,inserttable,callback){
 	mui.ajax('http://192.168.1.106:8080/dayreportlog/searchdayreportlog', {
 		data: {
-			//searchday: startdatesearch,
-			searchday: '2020-02-19',
+			searchday: startdatesearch,
+			//searchday: '2020-02-19',
 			robottype: robottype
 		},
 		dataType: 'json', //服务器返回json格式数据
@@ -34,9 +34,7 @@ function getRobotData(startdatesearch,robottype,inserttable,callback){
 					var row = {};
 					row.year = s.typename;
 					row.sales = s.totalnums;
-					jsondata.push(row);
-	
-	
+					jsondata.push(row);	
 					var x = inserttable.insertRow(0);
 					var a1 = x.insertCell(0);
 					var a2 = x.insertCell(1);

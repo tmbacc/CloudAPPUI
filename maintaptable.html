@@ -54,13 +54,7 @@
 		<div class="mui-content">
 			<div class="mui-content-padded">
 				<p style="text-align: center;">
-					<!-- 您好 <span id='account'></span>，您已成功登录。 -->
-					<!-- <ul>
-						<li>这是mui带登录和设置模板的示例App首页。</li>
-						<li>您可以点击右上角的 “设置” 按钮，进入设置模板，体验div窗体切换示例。</li>
-						<li>在 “设置” 中点击 “退出” 可以 “注销当前账户” 或 “直接关闭应用”。</li>
-						<li>你可以设置 “锁屏图案”，这样可通过手势密码代替输入账号、密码；</li>
-					</ul> -->
+
 					您好 ，<span id='account'></span>已成功登录。
 
 				</p>
@@ -80,8 +74,7 @@
 				</form>
 				<div class="mui-content-padded">
 					<button id='searchData' class="mui-btn mui-btn-block mui-btn-primary" style="width:120px;margin: auto;">查询</button>
-					<!-- <div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
-				</div> -->
+
 				</div>
 
 				<div id="slider" class="mui-slider">
@@ -121,7 +114,7 @@
 								</tr>
 
 								<tbody id="item1robottable">
-									
+
 								</tbody>
 
 							</table>
@@ -138,7 +131,7 @@
 								</tr>
 
 								<tbody id="item2robottable">
-								
+
 								</tbody>
 
 							</table>
@@ -154,7 +147,7 @@
 								</tr>
 
 								<tbody id="item3robottable">
-								
+
 								</tbody>
 
 							</table>
@@ -170,7 +163,7 @@
 								</tr>
 
 								<tbody id="item4robottable">
-								
+
 								</tbody>
 
 							</table>
@@ -186,7 +179,7 @@
 								</tr>
 
 								<tbody id="item5robottable">
-								
+
 								</tbody>
 
 							</table>
@@ -202,7 +195,7 @@
 								</tr>
 
 								<tbody id="item6robottable">
-								
+
 								</tbody>
 
 							</table>
@@ -227,22 +220,21 @@
 				var settings = app.getSettings();
 				var account = doc.getElementById('account');
 				var windowstemp = window.devicePixelRatio;
-				//
+				var startdatesearch = getFormatDate();
+
 				window.addEventListener('show', function() {
 					var state = app.getState();
 					account.innerText = state.account;
-                     var startdatesearch = getFormatDate();
-					 var inserttable = doc.getElementById("item1robottable");
-					 //生成数据
-					 getRobotData("2020-02-19", "CDR", inserttable, function(err) {
-					 	if (err) {
-					 		plus.nativeUI.toast(err);
-					 		return;
-					 	}
-					 });
-					 
-					 
-					 
+
+					var inserttable = doc.getElementById("item1robottable");
+					//生成数据
+					getRobotData(startdatesearch, "CAR", inserttable, function(err) {
+						if (err) {
+							plus.nativeUI.toast(err);
+							return;
+						}
+					});
+
 
 				}, false);
 				$.plusReady(function() {
@@ -268,37 +260,73 @@
 						});
 					})
 
+					//搜索逻辑
+					var searchDataButton = doc.getElementById('searchData');
 
-					//tab切换
+					searchDataButton.addEventListener('tap', function(event) {
 
-					/* 	mui(".mui-scroll").on('tap', '.mui-control-item', function() {
-							//获取id
-							var startdatesearch = getFormatDate();
-							var robottype = this.getAttribute("id");
-							var inserttablename = this.getAttribute("href") + "table";
-							var inserttable = doc.getElementById(inserttablename);
-							inserttable.innerHTML="";
-							console.log(robottype + "++++++++++++++++!");
-							console.log(inserttable + "++++++++++++++++!");
-							//生成数据
-							getRobotData(startdatesearch, robottype, inserttable, function(err) {
-								if (err) {
-									plus.nativeUI.toast(err);
-									return;
-								}
-							});
-						}) */
+						startdatesearch = doc.getElementById('stardate').innerText;
+						console.log(startdatesearch + "++++++++++++++++++");
+						//var inserttable = doc.getElementById("dayreportdatalog");
+						//inserttable.innerHTML = "";
+						var tableupdatename = "";
+						var robottype = "";
+						var tempid = doc.getElementsByClassName("mui-control-item mui-active")[0].id;
+						console.log(tempid + "++++++++++++++++++");
+						switch (tempid) {
+							case "CCRROBOT":
+								robottype = "CCR";
+								tableupdatename = "item1robottable";
+								break;
+							case "CPRROBOT":
+								robottype = "CPR";
+								tableupdatename = "item2robottable";
+								break;
+							case "CARROBOT":
+								robottype = "CAR";
+								tableupdatename = "item3robottable";
+								break;
+							case "CDRROBOT":
+								robottype = "CDR";
+								tableupdatename = "item4robottable";
+								break;
+							case "CGROBOT":
+								robottype = "CGR";
+								tableupdatename = "item5robottable";
+								break;
+							case "CVRROBOT":
+								robottype = "CVR";
+								tableupdatename = "item6robottable";
+								break;
+							default:
+								robottype = "CCR";
+								tableupdatename = "item1robottable";
+								break;
+						}
+
+
+						console.log(tableupdatename + "++++++++++++++++++");
+						console.log(robottype + "++++++++++++++++++");
+						console.log(startdatesearch + "++++++++++++++++++");
+						var inserttable = doc.getElementById(tableupdatename);
+						inserttable.innerHTML = "";
+						//生成数据
+						getRobotData(startdatesearch, robottype, inserttable, function(err) {
+							if (err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
+						});
+					});
+					//tab切换，重新请求数据				
 					document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 						//注意slideNumber是从0开始的；
-						var startdatesearch = getFormatDate();
 						var tableindex = event.detail.slideNumber + 1;
 						var inserttablename = "item" + tableindex + "robottable";
 						var inserttable = doc.getElementById(inserttablename);
 						var robottype = "CCR";
 						inserttable.innerHTML = "";
-						console.log(robottype + "++++++++++++++++!");
 						console.log(inserttablename + "++++++++++++++++!");
-
 						switch (event.detail.slideNumber) {
 							case 0:
 								robottype = "CCR";
@@ -310,19 +338,19 @@
 								robottype = "CAR";
 								break;
 							case 3:
-								robottype = "CCR";
-								break;
-							case 4:
 								robottype = "CDR";
 								break;
-							case 5:
+							case 4:
 								robottype = "CGR";
 								break;
-							default:
+							case 5:
 								robottype = "CVR";
 								break;
+							default:
+								robottype = "CCR";
+								break;
 						}
-						console.log(robottype+"++++++++++++++####");
+						console.log(robottype + "++++++++++++++####");
 						//生成数据
 						getRobotData(startdatesearch, robottype, inserttable, function(err) {
 							if (err) {
