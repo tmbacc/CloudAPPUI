@@ -8,11 +8,13 @@ function getFormatDate() {
 	var nowDate = new Date();
 	var year = nowDate.getFullYear();
 	var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
-	var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
+	var date = nowDate.getDate() < 10 ? "0" + (nowDate.getDate()-1) : nowDate.getDate()-1;
 	return year + "-" + month + "-" + date;
 }
 
-function getRobotData(startdatesearch,robottype,inserttable,callback){
+function getRobotData(startdatesearch, robottype, inserttablearray,devicePR,chartid, callback) {
+	
+	console.log(startdatesearch);
 	mui.ajax('http://192.168.1.106:8080/dayreportlog/searchdayreportlog', {
 		data: {
 			searchday: startdatesearch,
@@ -25,62 +27,89 @@ function getRobotData(startdatesearch,robottype,inserttable,callback){
 		success: function(data) {
 			console.log(JSON.stringify(data.data));
 			var jsondata = [];
+			
 			if ("[]" == JSON.stringify(data.data)) {
 				jsondata = [];
+				 drawchart(jsondata, chartid, devicePR);
 				return callback('当日数据还未更新');
 			} else {
-	
+
 				for (let s of data.data) {
 					var row = {};
 					row.year = s.typename;
 					row.sales = s.totalnums;
-					jsondata.push(row);	
-					var x = inserttable.insertRow(0);
-					var a1 = x.insertCell(0);
-					var a2 = x.insertCell(1);
-					var a3 = x.insertCell(2);
-					var a4 = x.insertCell(3);
-					var a5 = x.insertCell(4);
-				
-					a1.innerHTML = s.typename;
-					a2.innerHTML = s.totalnums;
-					a3.innerHTML = s.onlineworknums;
-					a4.innerHTML = s.onlinenoworknums;
-					a5.innerHTML = s.servicetimes;
-				
+					jsondata.push(row);
+
+					var x1 = inserttablearray[0].insertRow(0);
+					var a11 = x1.insertCell(0);
+					var a12 = x1.insertCell(1);
+					var a13 = x1.insertCell(2);
+					var a14 = x1.insertCell(3);
+
+
+					var x2 = inserttablearray[1].insertRow(0);
+					var a21 = x2.insertCell(0);
+					var a22 = x2.insertCell(1);
+					var a23 = x2.insertCell(2);
+					var a24 = x2.insertCell(3);
+
+					var x3 = inserttablearray[2].insertRow(0);
+					var a31 = x3.insertCell(0);
+					var a32 = x3.insertCell(1);
+					var a33 = x3.insertCell(2);
+					var a34 = x3.insertCell(3);
+
+					var x4 = inserttablearray[3].insertRow(0);
+					var a41 = x4.insertCell(0);
+					var a42 = x4.insertCell(1);
+					var a43 = x4.insertCell(2);
+
+
+					a11.innerHTML = s.typename;
+					a12.innerHTML = s.totalnums;
+					a13.innerHTML = s.onlineworknums;
+					a14.innerHTML = s.onlinenoworknums;
+
+					a21.innerHTML = s.typename;
+					a22.innerHTML = s.servicetimes;
+					a23.innerHTML = s.errornums;
+					a24.innerHTML = s.traineronlinenums;
+
+					a31.innerHTML = s.typename;
+					a32.innerHTML = s.newcustomer;
+					a33.innerHTML = s.newarragedevicesnums;
+					a34.innerHTML = s.newonlinedevicesnums;
+
+					a41.innerHTML = s.typename;
+					a42.innerHTML = s.servicedevicesnums;
+					a43.innerHTML = s.delivernums;
+
 				}
-	
-	
+	          drawchart(jsondata, chartid, devicePR);
+
 			}
 		},
 		error: function(xhr, type, errorThrown) {
-			console.log("++++++++++++++++++++++++");	
+			console.log("++++++++++++++++++++++++");
 			return callback('当日数据还未更新');
 		}
 	});
-	
-	
+
+
 }
 
 function drawchart(data, myChart, windowstemp) {
-	 console.log("chart+++++++++++++++++++++");
-	
-	
-	
+	console.log(myChart+"chart+++++++++++++++++++++");
 	const chart = new F2.Chart({
 		id: myChart,
 		pixelRatio: windowstemp, // 指定分辨率
 	});
-	
+
 	for (var s of data) {
-     console.log(s.year+"+++++++++++++++++++++");
-	console.log(s.sales+"+++++++++++++++++++++");
-	   //finalData.push({year: s.typename,sales: s.trainernums});
-	  }
-	
-	
-	
-	
+		console.log(s.year + "+++++++++++++++++++++");
+		console.log(s.sales + "+++++++++++++++++++++");
+		//finalData.push({year: s.typename,sales: s.trainernums});
+	}
 	chart.source(data, {
 		sales: {
 			tickCount: 5
@@ -203,7 +232,7 @@ function drawchart(data, myChart, windowstemp) {
 	};
 	//ajax从后台获取数据
 	owner.getDayreportLogdata = function(startdatesearch, inserttable, windowstemp, myChart, callback) {
-	
+
 		mui.ajax('http://192.168.1.106:8080/dayreportlog/searchdayreportlog', {
 			data: {
 				searchday: startdatesearch

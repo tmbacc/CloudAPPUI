@@ -40,6 +40,15 @@
 				border-color: #666666;
 				background-color: #ffffff;
 			}
+			table.gridtable thead {
+				border-width: 1px;
+				padding: 5px;
+				border-style: solid;
+				border-color: #666666;
+				text-align: center;
+				background-color: #00aa00;
+				
+			}
 		</style>
 	</head>
 
@@ -48,7 +57,7 @@
 			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
 				<span class="mui-icon mui-icon-left-nav"></span>
 			</button>
-			<h1 class="mui-title">云端机器人运营日报情况</h1>
+			<h1 class="mui-title">云端机器人每日运营统计</h1>
 			<button id='setting' class=" mui-pull-right mui-btn-link">设置</button>
 		</header>
 		<div class="mui-content">
@@ -75,6 +84,9 @@
 				<div class="mui-content-padded">
 					<button id='searchData' class="mui-btn mui-btn-block mui-btn-primary" style="width:120px;margin: auto;">查询</button>
 
+				</div>
+				<div style="margin:0px;">
+					<canvas id="myChart" width="400" height="auto"></canvas>
 				</div>
 
 				<div id="slider" class="mui-slider">
@@ -104,97 +116,489 @@
 					</div>
 					<div class="mui-slider-group">
 						<div id="item1robot" class="mui-slider-item mui-control-content mui-active">
+
 							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">设备统计</th>
+									</tr>
+
+								</thead>
 								<tr>
-									<th>统计项1</th>
-									<th>机器人类型1</th>
-									<th>机器人类型1</th>
-									<th>机器人类型12</th>
-									<th>机器人类型12</th>
+									<th>机器人类型</th>
+									<th>设备总台数</th>
+									<th>在线工作台数</th>
+									<th>在线未工台数</th>
 								</tr>
 
-								<tbody id="item1robottable">
+								<tbody id="item1robottable1">
 
 								</tbody>
 
 							</table>
-
-						</div>
-						<div id="item2robot" class="mui-slider-item mui-control-content ">
+							<br>
 							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">服务统计</th>
+									</tr>
+
+								</thead>
 								<tr>
-									<th>统计项2</th>
-									<th>机器人类型1</th>
-									<th>机器人类型1</th>
-									<th>机器人类型12</th>
-									<th>机器人类型12</th>
+									<th>机器人类型</th>
+									<th>服务时长</th>
+									<th>故障次数</th>
+									<th>训练师上岗数</th>
 								</tr>
 
-								<tbody id="item2robottable">
+								<tbody id="item1robottable2">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">交付统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>部署客户数</th>
+									<th>部署中设备台数</th>
+									<th>部署转运营台数</th>
+								</tr>
+
+								<tbody id="item1robottable3">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">售后统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>售后产品支撑台数</th>
+									<th>物流发货台数</th>
+								</tr>
+
+								<tbody id="item1robottable4">
+
+								</tbody>
+
+							</table>
+						</div>
+
+
+
+						<div id="item2robot" class="mui-slider-item mui-control-content ">
+
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">设备统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>设备总台数</th>
+									<th>在线工作台数</th>
+									<th>在线未工作台数</th>
+								</tr>
+
+								<tbody id="item2robottable1">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">服务统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>服务时长</th>
+									<th>故障次数</th>
+									<th>训练师上岗数</th>
+								</tr>
+
+								<tbody id="item2robottable2">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">交付统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>部署客户数</th>
+									<th>部署中设备台数</th>
+									<th>部署转运营台数</th>
+								</tr>
+
+								<tbody id="item2robottable3">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">售后统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>售后产品支撑台</th>
+									<th>物流发货台数</th>
+								</tr>
+
+								<tbody id="item2robottable4">
 
 								</tbody>
 
 							</table>
 						</div>
 						<div id="item3robot" class="mui-slider-item mui-control-content ">
+
 							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">设备统计</th>
+									</tr>
+
+								</thead>
 								<tr>
-									<th>统计项3</th>
-									<th>机器人类型1</th>
-									<th>机器人类型1</th>
-									<th>机器人类型12</th>
-									<th>机器人类型12</th>
+									<th>机器人类型</th>
+									<th>设备总台数</th>
+									<th>在线工作总台数</th>
+									<th>在线未工作台数</th>
 								</tr>
 
-								<tbody id="item3robottable">
+								<tbody id="item3robottable1">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">服务统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>服务时长</th>
+									<th>故障次数</th>
+									<th>训练师上岗数</th>
+								</tr>
+
+								<tbody id="item3robottable2">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">交付统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>部署客户数</th>
+									<th>部署中设备台数</th>
+									<th>部署转运营台数</th>
+								</tr>
+
+								<tbody id="item3robottable3">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">售后统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>售后产品支撑台数</th>
+									<th>物流发货台数</th>
+								</tr>
+
+								<tbody id="item3robottable4">
 
 								</tbody>
 
 							</table>
 						</div>
 						<div id="item4robot" class="mui-slider-item mui-control-content ">
+
 							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">设备统计</th>
+									</tr>
+
+								</thead>
 								<tr>
-									<th>统计项4</th>
-									<th>机器人类型1</th>
-									<th>机器人类型1</th>
-									<th>机器人类型12</th>
-									<th>机器人类型12</th>
+									<th>机器人类型</th>
+									<th>设备总台数</th>
+									<th>在线工作总台数</th>
+									<th>在线未工作台数</th>
 								</tr>
 
-								<tbody id="item4robottable">
+								<tbody id="item4robottable1">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">服务统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>服务时长</th>
+									<th>故障次数</th>
+									<th>训练师上岗数</th>
+								</tr>
+
+								<tbody id="item4robottable2">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">交付统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>部署客户数</th>
+									<th>部署中设备台数</th>
+									<th>部署转运营台数</th>
+								</tr>
+
+								<tbody id="item4robottable3">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">售后统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>售后产品支撑台数</th>
+									<th>物流发货台数</th>
+								</tr>
+
+								<tbody id="item4robottable4">
 
 								</tbody>
 
 							</table>
 						</div>
 						<div id="item5robot" class="mui-slider-item mui-control-content ">
+
 							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">设备统计</th>
+									</tr>
+
+								</thead>
 								<tr>
-									<th>统计项5</th>
-									<th>机器人类型1</th>
-									<th>机器人类型1</th>
-									<th>机器人类型12</th>
-									<th>机器人类型12</th>
+									<th>机器人类型</th>
+									<th>设备总台数</th>
+									<th>在线工作总台数</th>
+									<th>在线未工作台数</th>
 								</tr>
 
-								<tbody id="item5robottable">
+								<tbody id="item5robottable1">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">服务统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>服务时长</th>
+									<th>故障次数</th>
+									<th>训练师上岗数</th>
+								</tr>
+
+								<tbody id="item5robottable2">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">交付统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>部署客户数</th>
+									<th>部署中设备台数</th>
+									<th>部署转运营台数</th>
+								</tr>
+
+								<tbody id="item5robottable3">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">售后统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>售后产品支撑台数</th>
+									<th>物流发货数台数</th>
+								</tr>
+
+								<tbody id="item5robottable4">
 
 								</tbody>
 
 							</table>
 						</div>
 						<div id="item6robot" class="mui-slider-item mui-control-content ">
+
 							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">设备统计</th>
+									</tr>
+
+								</thead>
 								<tr>
-									<th>统计项6</th>
-									<th>机器人类型1</th>
-									<th>机器人类型1</th>
-									<th>机器人类型12</th>
-									<th>机器人类型12</th>
+									<th>机器人类型</th>
+									<th>设备总台数</th>
+									<th>在线工作总台数</th>
+									<th>在线未工作台数</th>
 								</tr>
 
-								<tbody id="item6robottable">
+								<tbody id="item6robottable1">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">服务统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>服务时长</th>
+									<th>故障次数</th>
+									<th>训练师上岗数</th>
+								</tr>
+
+								<tbody id="item6robottable2">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">交付统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>部署客户数</th>
+									<th>部署中设备台数</th>
+									<th>部署转运营台数</th>
+								</tr>
+
+								<tbody id="item6robottable3">
+
+								</tbody>
+
+							</table>
+							<br>
+							<table class="gridtable">
+								<thead>
+									<tr>
+										<th colspan="5" style="text-align: center;font-size: 16px;">售后统计</th>
+									</tr>
+
+								</thead>
+								<tr>
+									<th>机器人类型</th>
+									<th>售后产品支撑台数</th>
+									<th>物流发货数台数</th>
+								</tr>
+
+								<tbody id="item6robottable4">
 
 								</tbody>
 
@@ -219,16 +623,21 @@
 
 				var settings = app.getSettings();
 				var account = doc.getElementById('account');
-				var windowstemp = window.devicePixelRatio;
+				var devicePR = window.devicePixelRatio;
 				var startdatesearch = getFormatDate();
 
 				window.addEventListener('show', function() {
 					var state = app.getState();
 					account.innerText = state.account;
 
-					var inserttable = doc.getElementById("item1robottable");
+					var inserttable1 = doc.getElementById("item1robottable1");
+					var inserttable2 = doc.getElementById("item1robottable2");
+					var inserttable3 = doc.getElementById("item1robottable3");
+					var inserttable4 = doc.getElementById("item1robottable4");
+					var inserttablearray = new Array(inserttable1, inserttable2, inserttable3, inserttable4);
+
 					//生成数据
-					getRobotData(startdatesearch, "CAR", inserttable, function(err) {
+					getRobotData(startdatesearch, "CCR", inserttablearray, devicePR, 'myChart', function(err) {
 						if (err) {
 							plus.nativeUI.toast(err);
 							return;
@@ -308,10 +717,22 @@
 						console.log(tableupdatename + "++++++++++++++++++");
 						console.log(robottype + "++++++++++++++++++");
 						console.log(startdatesearch + "++++++++++++++++++");
-						var inserttable = doc.getElementById(tableupdatename);
-						inserttable.innerHTML = "";
+
+						var inserttable1 = doc.getElementById(tableupdatename + "1");
+						var inserttable2 = doc.getElementById(tableupdatename + "2");
+						var inserttable3 = doc.getElementById(tableupdatename + "3");
+						var inserttable4 = doc.getElementById(tableupdatename + "4");
+						var inserttablearray = new Array(inserttable1, inserttable2, inserttable3, inserttable4);
+
+
+						inserttable1.innerHTML = "";
+						inserttable2.innerHTML = "";
+						inserttable3.innerHTML = "";
+						inserttable4.innerHTML = "";
+
+
 						//生成数据
-						getRobotData(startdatesearch, robottype, inserttable, function(err) {
+						getRobotData(startdatesearch, robottype, inserttablearray, devicePR, 'myChart',function(err) {
 							if (err) {
 								plus.nativeUI.toast(err);
 								return;
@@ -323,10 +744,7 @@
 						//注意slideNumber是从0开始的；
 						var tableindex = event.detail.slideNumber + 1;
 						var inserttablename = "item" + tableindex + "robottable";
-						var inserttable = doc.getElementById(inserttablename);
 						var robottype = "CCR";
-						inserttable.innerHTML = "";
-						console.log(inserttablename + "++++++++++++++++!");
 						switch (event.detail.slideNumber) {
 							case 0:
 								robottype = "CCR";
@@ -351,8 +769,20 @@
 								break;
 						}
 						console.log(robottype + "++++++++++++++####");
+
+						var inserttable1 = doc.getElementById(inserttablename + "1");
+						var inserttable2 = doc.getElementById(inserttablename + "2");
+						var inserttable3 = doc.getElementById(inserttablename + "3");
+						var inserttable4 = doc.getElementById(inserttablename + "4");
+						var inserttablearray = new Array(inserttable1, inserttable2, inserttable3, inserttable4);
+
+						inserttable1.innerHTML = "";
+						inserttable2.innerHTML = "";
+						inserttable3.innerHTML = "";
+						inserttable4.innerHTML = "";
+
 						//生成数据
-						getRobotData(startdatesearch, robottype, inserttable, function(err) {
+						getRobotData(startdatesearch, robottype, inserttablearray, devicePR, 'myChart',function(err) {
 							if (err) {
 								plus.nativeUI.toast(err);
 								return;
