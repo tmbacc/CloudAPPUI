@@ -3,19 +3,21 @@
  * 当您要参考这个演示程序进行相关 app 的开发时，
  * 请注意将相关方法调整成 “基于服务端Service” 的实现。
  **/
+var serverurl="192.168.1.106:8080";
+
 
 function getFormatDate() {
 	var nowDate = new Date();
 	var year = nowDate.getFullYear();
 	var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
-	var date = nowDate.getDate() < 10 ? "0" + (nowDate.getDate()-1) : nowDate.getDate()-1;
+	var date = nowDate.getDate() < 10 ? "0" + (nowDate.getDate() - 1) : nowDate.getDate() - 1;
 	return year + "-" + month + "-" + date;
 }
 
-function getRobotData(startdatesearch, robottype, inserttablearray,devicePR,chartid, callback) {
-	
+function getRobotData(startdatesearch, robottype, inserttablearray, devicePR, chartid, callback) {
+
 	console.log(startdatesearch);
-	mui.ajax('http://192.168.1.106:8080/dayreportlog/searchdayreportlog', {
+	mui.ajax('http://'+serverurl+'/dayreportlog/searchdayreportlog', {
 		data: {
 			searchday: startdatesearch,
 			//searchday: '2020-02-19',
@@ -27,19 +29,32 @@ function getRobotData(startdatesearch, robottype, inserttablearray,devicePR,char
 		success: function(data) {
 			console.log(JSON.stringify(data.data));
 			var jsondata = [];
-			
+
 			if ("[]" == JSON.stringify(data.data)) {
 				jsondata = [];
-				 drawchart(jsondata, chartid, devicePR);
+				drawchart(jsondata, chartid, devicePR);
 				return callback('当日数据还未更新');
 			} else {
 
 				for (let s of data.data) {
 					var row = {};
-					row.year = s.typename;
-					row.sales = s.totalnums;
+					var row2 = {};
+					var row3= {};
+					row.typename = s.typename;
+					row.counttype = '设备总台数';
+					row.count = s.totalnums;
 					jsondata.push(row);
+					row2.typename = s.typename;
+					row2.counttype = '在线设备台数';
+					row2.count = s.onlineworknums;
+					jsondata.push(row2);
 
+					row3.typename = s.typename;
+					row3.counttype = '在线未工作台数';
+					row3.count = s.onlinenoworknums;
+					jsondata.push(row3);
+					
+					
 					var x1 = inserttablearray[0].insertRow(0);
 					var a11 = x1.insertCell(0);
 					var a12 = x1.insertCell(1);
@@ -85,7 +100,7 @@ function getRobotData(startdatesearch, robottype, inserttablearray,devicePR,char
 					a43.innerHTML = s.delivernums;
 
 				}
-	          drawchart(jsondata, chartid, devicePR);
+				drawchart(jsondata, chartid, devicePR);
 
 			}
 		},
@@ -99,19 +114,20 @@ function getRobotData(startdatesearch, robottype, inserttablearray,devicePR,char
 }
 
 function drawchart(data, myChart, windowstemp) {
-	console.log(myChart+"chart+++++++++++++++++++++");
+	console.log(myChart + "chart+++++++++++++++++++++");
 	const chart = new F2.Chart({
 		id: myChart,
 		pixelRatio: windowstemp, // 指定分辨率
 	});
 
 	for (var s of data) {
-		console.log(s.year + "+++++++++++++++++++++");
-		console.log(s.sales + "+++++++++++++++++++++");
+		console.log(s.typename + "+++++++++++++++++++++");
+		console.log(s.counttype + "+++++++++++++++++++++");
+		console.log(s.count + "+++++++++++++++++++++");
 		//finalData.push({year: s.typename,sales: s.trainernums});
 	}
 	chart.source(data, {
-		sales: {
+		count: {
 			tickCount: 5
 		}
 	});
@@ -120,16 +136,78 @@ function drawchart(data, myChart, windowstemp) {
 		showItemMarker: false,
 		onShow: function onShow(ev) {
 			const items = ev.items;
-			items[0].name = null;
-			items[0].name = items[0].title;
-			items[0].value = '台数:' + items[0].value;
+			
+			//items[0].name = items[0].name;
+		//	items[0].value =  items[0].value;
 		}
 	});
+	//chart.tooltip(false);
+
 
 	chart.interval()
-		.position('year*sales')
-		.color('l(90) 0:#1890ff 1:#70cdd0'); // 定义柱状图渐变色
+		.position('counttype*count')
+		.color('typename')
+		.adjust({
+			type: 'dodge',
+			marginRatio: 0.05 // 设置分组间柱子的间距
+		});
 	chart.render();
+
+	// 绘制柱状图文本
+	// const offset = -5;
+	// const canvas = chart.get('canvas');
+	// const group = canvas.addGroup();
+	// const shapes = {};
+	// data.forEach(function(obj) {
+	// 	const point = chart.getPosition(obj);
+	// 	const text = group.addShape('text', {
+	// 		attrs: {
+	// 			x: point.x+offset,
+	// 			y: point.y + offset,
+	// 			text: obj.count,
+	// 			textAlign: 'center',
+	// 			textBaseline: 'bottom',
+	// 			fill: '#808080'
+	// 		}
+	// 	});
+
+	// 	shapes[obj.typename] = text; // 缓存该 shape, 便于后续查找
+	// }); 
+
+	/* let lastTextShape; // 上一个被选中的 text
+	// 配置柱状图点击交互
+	chart.interaction('interval-select', {
+	  selectAxisStyle: {
+	    fill: '#000',
+	    fontWeight: 'bold'
+	  },
+	  mode: 'range',
+	  defaultSelected: {
+	    typename: '1962 年',
+	    totalnums: 38
+	  },
+	  onEnd: function onEnd(ev) {
+	    const data = ev.data,
+	      selected = ev.selected;
+	
+	    lastTextShape && lastTextShape.attr({
+	      fill: '#808080',
+	      fontWeight: 'normal'
+	    });
+	    if (selected) {
+	      const textShape = shapes[data.typename];
+	      textShape.attr({
+	        fill: '#000',
+	        fontWeight: 'bold'
+	      });
+	      lastTextShape = textShape;
+	    }
+	    canvas.draw();
+	  }
+	});
+
+	 */
+
 }
 (function($, owner) {
 	/**
@@ -148,7 +226,7 @@ function drawchart(data, myChart, windowstemp) {
 			return callback('密码最短为 4 个字符');
 		}
 
-		mui.ajax('http://192.168.1.106:8080/user/searchuser', {
+		mui.ajax('http://'+serverurl+'/user/searchuser', {
 			data: {
 				username: loginInfo.account,
 				password: loginInfo.password
@@ -233,7 +311,7 @@ function drawchart(data, myChart, windowstemp) {
 	//ajax从后台获取数据
 	owner.getDayreportLogdata = function(startdatesearch, inserttable, windowstemp, myChart, callback) {
 
-		mui.ajax('http://192.168.1.106:8080/dayreportlog/searchdayreportlog', {
+		mui.ajax('http://'+serverurl+'/dayreportlog/searchdayreportlog', {
 			data: {
 				searchday: startdatesearch
 			},
